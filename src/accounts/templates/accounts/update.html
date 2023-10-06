@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Update account{% endblock %}
+{% block content %}
+<div class="container text-center">
+    <form method="POST" id="myForm" action="">
+        {% csrf_token %}
+        <div class="form-group mx-auto" style="max-width: 300px;"> <!-- Adjust max-width as needed -->
+            {{ form.as_p }}
+        </div>
+        <button type="submit" id="submitButton" class="btn btn-primary mt-3">Зберегти</button>
+    </form>
+    <form method="POST" action="{% url 'accounts:delete' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3">Видалати акаунт</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('submitButton').addEventListener('click', function () {
+        // Trigger the form submission when the button is clicked
+        document.getElementById('myForm').submit();
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Customize the pagination styles */
+    .pagination .page-link {
+        background-color: #EDEDE4; /* Background color */
+        border-color: #333; /* Border color */
+        color: #333; /* Text color */
+    }
+
+    /* Customize the active page style */
+    .pagination .page-item.active .page-link {
+        background-color: #555; /* Background color for the active page */
+        border-color: #555; /* Border color for the active page */
+        color: #ECEAE0; /* Text color */
+
+    }
+
+    /* Customize the hover style (optional) */
+    .pagination .page-item:hover .page-link {
+        background-color: #444; /* Background color on hover */
+        border-color: #444; /* Border color on hover */
+        color: #ECEAE0; /* Text color */
+    }
+</style>
+<div class="container mt-5 mb-3">
+    {% if object_list %}
+    <nav aria-label="Page navigation example text-danger">
+        <ul class="pagination justify-content-center">
+            {% if object_list.has_previous %}
+            <li class="page-item"><a class="page-link"
+                                     href="?location={{location}}&search={{search}}&page={{ object_list.previous_page_number }}">Попередня</a>
+            </li>
+
+            {% endif %}
+                                        {% if object_list.number == first_page %}
+                <li class="page-item active"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ first_page }}">{{ first_page }}</a>
+                </li>
+            {% else %}
+                            <li class="page-item"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ first_page }}">{{ first_page }}</a>
+                </li>
+            {% endif %}
+            {% for page in object_list.paginator.page_range %}
+                {% if page == object_list.number and page != object_list.paginator.num_pages and page != first_page %}
+                <li class="page-item active">
+                    <a class="page-link dark"
+                       href="?location={{location}}&search={{search}}&page={{ page }}">{{page}}</a>
+                </li>
+                {% elif page > object_list.number|add:'-2' and page < object_list.number|add:'+2' and page != object_list.paginator.num_pages and page != first_page %}
+                <li class="page-item">
+                    <a class="page-link dark"
+                       href="?location={{location}}&search={{search}}&page={{ page }}">{{page}}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+                            {% if object_list.number == object_list.paginator.num_pages %}
+                            <li class="page-item active">
+                                <a class="page-link dark"
+                                   href="?location={{location}}&search={{search}}&page={{ object_list.paginator.num_pages }}">{{object_list.paginator.num_pages}}</a>
+                         </li>
+            {% else %}
+                                            <li class="page-item">
+                                <a class="page-link dark"
+                                   href="?location={{location}}&search={{search}}&page={{ object_list.paginator.num_pages }}">{{object_list.paginator.num_pages}}</a>
+                         </li>
+            {% endif %}
+            {% if object_list.has_next %}
+                <li class="page-item"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ object_list.next_page_number }}">Наступна</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    <div class="row">
+        {% for i in object_list %}
+            <div class="col-md-3" style="background-color: #EDEDE4">
+            <a href={{ i.url }} target="_blank" style="text-decoration:none" class="d-flex h-100">
+                <div class="card custom-card p-3 mb-2 d-flex flex-column">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="icon"><i class="bx bxl-mailchimp"></i></div>
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0" style="font-size: 14px;">{{ i.company }}</h6>
+                                <span style="font-size: 12px;">{{ i.timestamp|date:"SHORT_DATE_FORMAT" }}</span>
+                            </div>
+                        </div>
+                        <div class="badge"><span>{{ i.city }}</span></div>
+                    </div>
+                    <div class="mt-5">
+                        <h3 class="heading" style="font-size: 18px;">{{ i.title }}{% if i.salary != "$No info" %}<br>{{ i.salary }}{% endif %}</h3>
+                        <div class="mt-5">
+                            <div class="mt-3" style="font-size: 14px;"><span class="text1">{{ i.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row">
+        {% endif %}
+        {% empty %}
+        <h1 class="mb-0" style="margin-top: 20%">Нічого немає спробуй вибрати інші критерії пошуку</h1>
+        {% endfor %}
+    </div>
+    {% if object_list %}
+        <nav aria-label="Page navigation example text-danger">
+        <ul class="pagination justify-content-center">
+            {% if object_list.has_previous %}
+            <li class="page-item"><a class="page-link"
+                                     href="?location={{location}}&search={{search}}&page={{ object_list.previous_page_number }}">Попередня</a>
+            </li>
+
+            {% endif %}
+                                        {% if object_list.number == first_page %}
+                <li class="page-item active"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ first_page }}">{{ first_page }}</a>
+                </li>
+            {% else %}
+                            <li class="page-item"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ first_page }}">{{ first_page }}</a>
+                </li>
+            {% endif %}
+            {% for page in object_list.paginator.page_range %}
+                {% if page == object_list.number and page != object_list.paginator.num_pages and page != first_page %}
+                <li class="page-item active">
+                    <a class="page-link dark"
+                       href="?location={{location}}&search={{search}}&page={{ page }}">{{page}}</a>
+                </li>
+                {% elif page > object_list.number|add:'-2' and page < object_list.number|add:'+2' and page != object_list.paginator.num_pages and page != first_page %}
+                <li class="page-item">
+                    <a class="page-link dark"
+                       href="?location={{location}}&search={{search}}&page={{ page }}">{{page}}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+                            {% if object_list.number == object_list.paginator.num_pages %}
+                            <li class="page-item active">
+                                <a class="page-link dark"
+                                   href="?location={{location}}&search={{search}}&page={{ object_list.paginator.num_pages }}">{{object_list.paginator.num_pages}}</a>
+                         </li>
+            {% else %}
+                                            <li class="page-item">
+                                <a class="page-link dark"
+                                   href="?location={{location}}&search={{search}}&page={{ object_list.paginator.num_pages }}">{{object_list.paginator.num_pages}}</a>
+                         </li>
+            {% endif %}
+            {% if object_list.has_next %}
+                <li class="page-item"><a class="page-link"
+                                         href="?location={{location}}&search={{search}}&page={{ object_list.next_page_number }}">Наступна</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

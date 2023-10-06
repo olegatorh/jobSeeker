@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Vacancies{% endblock %}</title>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'images/jobs_icon.png' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body style="background-color: #EDEDE4">
+    <div class="d-flex mb-3">
+      <div class="p-2">Вакансії взято з</div>
+      <div class="p-2"><p><a href="https://www.work.ua/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">work ua</a></p></div>
+      <div class="p-2"><p><a href="https://robota.ua/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">robota ua</a></p></div>
+      <div class="p-2"><p><a href="https://djinni.co/my/dashboard/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">djinni</a></p></div>
+      <div class="p-2 me-auto"><p><a href="https://jobs.dou.ua/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">dou</a></p></div>
+
+      {% if user.is_authenticated %}
+          {% if request.path != '/accounts/update/' %}
+            <div class="p-2" style="margin-right: 1%"><p><a href="{% url 'accounts:update' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Налаштування</a></p></div>
+            {% elif request.path == '/accounts/update/' %}
+                            <div class="p-2" style="margin-right: 1%"><p><a href="{% url 'home' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Пошук</a></p></div>
+
+          {% endif %}
+            <div class="p-2" style="margin-right: 1%"><p><a href="{% url 'accounts:logout' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Вийти</a></p></div>
+          {% else %}
+                {% if request.path != '/accounts/register/' and request.path != '/accounts/login/'%}
+                    <div class="p-2"><p><a href="{% url 'accounts:register' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Зареєструватись</a></p></div>
+                {% endif %}
+            {% if request.path != '/accounts/login/' and request.path != '/accounts/register/'%}
+                <div class="p-2" style="margin-right: 1%"><p><a href="{% url 'accounts:login' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Увійти</a></p></div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="container text-center">
+        {% if messages %}
+
+              {% for message in messages %}
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                       {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+              {% else %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                       {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+               {% endif %}
+
+
+              {% endfor %}
+
+          {% endif %}
+     {% block content %}
+     {% endblock %}
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+  </body>
+</html>
